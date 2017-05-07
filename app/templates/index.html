@@ -1,0 +1,20 @@
+{%extends "base.html"%}
+{% block content %}
+  <h1>Hi, {{ g.user.nickname }}!</h1>
+  <h2>Challenges:</h2>
+  <ul>
+  {%for challenge in available%}
+    {%include 'item_challenge.html'%}
+  {%endfor%}
+</ul>
+<h2>Users:</h2>
+<ul>
+{% for user in user_list.items %}
+<li>
+  {{ user.nickname }}
+</li>
+{% endfor %}
+</ul>
+{% if user_list.has_prev %}<a href="{{ url_for('index', page=user_list.prev_num) }}">&lt;&lt; </a>{% else %}&lt;&lt; Back{% endif %} |
+{% if user_list.has_next %}<a href="{{ url_for('index', page=user_list.next_num) }}">Next Page&gt;&gt;</a>{% else %}Next Page&gt;&gt;{% endif %}
+{% endblock %}

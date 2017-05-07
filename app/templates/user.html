@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table>
+    <tr valign="top">
+        <td><img src="{{ user.avatar(128) }}"></td>
+        <td><h1>User: {{ user.nickname }}</h1>
+          {% if user.last_seen%}<p><i>Last seen: {{user.last_seen}} </i></p>{%endif%}
+          <p>{{ user.followers.count()-1 }} followers |
+            {% if user.id == g.user.id %}<p>
+                  <a href="{{ url_for('edit') }}">Edit</a></p>
+            {% elif not g.user.is_following(user) %}
+                  <a href="{{ url_for('follow', nickname=user.nickname) }}">Follow</a>
+            {% else %}
+                  <a href="{{ url_for('unfollow', nickname=user.nickname) }}">Unfollow</a>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<p id = 'solved'>List of Solved Challenges:</p>
+<ul>
+{% with challenges = user.get_solved_challenges().all()%}
+{%for challenge in challenges%}
+  {%include 'item_challenge.html'%}
+{%endfor%}
+{%if user.get_solved_number() < 1%}
+<li>No challenge solved yet</li>
+{%endif%}
+{%endwith%}
+</ul>
+
+{% endblock %}

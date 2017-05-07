@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{challenge.title}}</h1>
+  <p>{{challenge.text}}</p>
+  <form action="" method="post" name="solution">
+      {{form.hidden_tag()}}
+      <table>
+          <tr>
+              <td>Solution:</td>
+              <td>{{ form.solution(size=24) }}
+                {% for error in form.errors.nickname %}
+            <br><span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+              </td>
+          </tr>
+          <tr>
+              <td></td>
+              <td><input type="submit" value="Submit!"></td>
+          </tr>
+      </table>
+  </form>
+{% endblock %}

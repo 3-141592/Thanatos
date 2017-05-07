@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <link rel='shortcut icon' type='image/x-icon' href={{url_for('static',filename = 'favicon.ico')}} />
+    {%if title%}
+    <title>Thanatos - {{title}}</title>
+    {%else%}
+    <title>Thanatos</title>
+    {%endif%}
+  </head>
+  <body>
+    <div>Thanatos <a href="{{url_for('index')}}">Home</a>
+    {%if g.user.is_authenticated %}
+      |Hi, <a href="{{url_for('user',nickname=g.user.nickname)}}">{{current_user.nickname}}</a>
+      | <form style="display: inline;" action="{{ url_for('search') }}" method="post" name="search">{{ g.search_form.hidden_tag() }}{{ g.search_form.search(size=20) }}<input type="submit" value="Search"></form>
+      | <a href="{{url_for('logout')}}">Logout</a>
+    {%else%}
+    |Hi there, anonymous guy!
+    |<a href="{{url_for('login')}}">Login</a>
+    {%endif%}
+    <hr>
+  </div>
+    {% with messages = get_flashed_messages()%}
+    {%if messages%}
+    <ul>
+      {%for message in messages%}
+      <li>{{message}}</li>
+      {%endfor%}
+    </ul>
+    {%endif%}
+    {%endwith%}
+    {%block content%}{%endblock%}
+  </body>
+</html>
